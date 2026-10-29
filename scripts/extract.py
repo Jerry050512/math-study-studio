@@ -1,5 +1,5 @@
 from pathlib import Path
-import re,json,hashlib,shutil
+import re,json,hashlib,shutil,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT.parent/'04-学习笔记/数学笔记/全卷全题型'
 def argument(s,pos):
@@ -66,10 +66,7 @@ out=ROOT/'src/data';out.mkdir(parents=True,exist_ok=True)
 (out/'references.json').write_text(json.dumps(extras,ensure_ascii=False),encoding='utf-8')
 public=ROOT/'public';(public/'questions').mkdir(parents=True,exist_ok=True)
 ids=set(q['id'] for x in lessons for q in x['questions'])
-for q in ids:
-    p=SOURCE/'questions'/f'{q}.png'
-    if p.exists():shutil.copy2(p,public/'questions'/p.name)
-    elif q!='math2-2025-22':raise ValueError(f'Missing question {q}')
+subprocess.run([sys.executable,str(ROOT/'scripts/archive_questions.py')],check=True)
 shutil.copy2(SOURCE/'build/main.pdf',public/'数学二真题全卷满分手册.pdf')
 (public/'sources').mkdir(exist_ok=True)
 for name in ['calculus','applications','linear','field','synthesis','evidence']:

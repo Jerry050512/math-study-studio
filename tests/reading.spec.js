@@ -3,7 +3,7 @@ import {test,expect} from '@playwright/test';
 test('阅读偏好保存、搜索、Zen 与退出',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/#lesson/calculus-01');
  await page.getByRole('button',{name:'切换到深色模式'}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
- await page.getByRole('button',{name:'阅读设置',exact:true}).click();await page.getByRole('button',{name:'大号',exact:true}).click();await expect(page.locator('.settings-label output')).toHaveText('120%');await page.getByRole('button',{name:'关闭阅读设置'}).click();
+ await page.getByRole('button',{name:'阅读设置',exact:true}).click();await page.getByRole('button',{name:/舒适/}).click();await expect(page.locator('.settings-label output')).toHaveText('120%');await page.getByRole('button',{name:'关闭阅读设置'}).click();
  await page.locator('.stage-nav button').nth(1).click();const regular=await page.locator('.core-content .rich').evaluate(e=>parseFloat(getComputedStyle(e).fontSize));expect(regular).toBeCloseTo(16.8,1);
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');expect(await page.locator('.core-content .rich').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeCloseTo(16.8,1);
  await page.getByRole('button',{name:'进入 Zen 模式',exact:true}).click();await expect(page.locator('.app')).toHaveClass(/zen-mode/);await expect(page.locator('.sidebar')).toBeHidden();await expect(page.locator('.lesson-margin')).toBeHidden();expect(await page.locator('.core-content .rich').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThan(regular);
@@ -22,7 +22,7 @@ test('深色、大字与Zen的桌面手机视觉检查',async({page})=>{
  for(const [width,height,name] of [[1440,1050,'desktop'],[390,844,'mobile']]){
   await page.setViewportSize({width,height});await page.goto('/#lesson/calculus-01');
   if(await page.getByRole('button',{name:'切换到深色模式'}).count())await page.getByRole('button',{name:'切换到深色模式'}).click();
-  await page.locator('.stage-nav button').nth(1).click();await page.getByRole('button',{name:'阅读设置',exact:true}).click();await page.getByRole('button',{name:'特大',exact:true}).click();await page.waitForTimeout(220);
+  await page.locator('.stage-nav button').nth(1).click();await page.getByRole('button',{name:'阅读设置',exact:true}).click();await page.getByRole('button',{name:/特大/}).click();await page.waitForTimeout(220);
   await page.screenshot({path:`test-results/reading-dark-${name}.png`,fullPage:true,animations:'disabled'});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();await page.getByRole('button',{name:'关闭阅读设置'}).click();
   await page.getByRole('button',{name:'进入 Zen 模式',exact:true}).click();await page.waitForTimeout(220);await page.screenshot({path:`test-results/reading-zen-${name}.png`,fullPage:true,animations:'disabled'});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
   await page.getByRole('button',{name:'退出 Zen 模式',exact:true}).click();
