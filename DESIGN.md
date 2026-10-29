@@ -25,6 +25,17 @@ colors:
   lab-tab-ink: "#53694d"
   correct-surface: "#eaf3e1"
   retry-surface: "#fcf2e7"
+  reading-border: "#dce5da"
+  reading-focus: "#86a992"
+  dark-paper: "#14211b"
+  dark-panel: "#1a2a21"
+  dark-panel-soft: "#223729"
+  dark-ink: "#e2eade"
+  dark-muted: "#abbcab"
+  dark-border: "#34483b"
+  dark-active: "#92b79d"
+  dark-on-active: "#14251a"
+  dark-focus: "#99bd9c"
 typography:
   display:
     fontFamily: "'Noto Sans SC Variable', 'Microsoft YaHei', sans-serif"
@@ -56,6 +67,7 @@ rounded:
   navigation: "8px"
   field: "9px"
   symbol: "10px"
+  popup: "12px"
   drawer: "13px"
   feature: "14px"
 spacing:
@@ -102,6 +114,18 @@ components:
     backgroundColor: "{colors.green}"
     rounded: "{rounded.feature}"
     padding: "30px 35px"
+  reading-settings:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.popup}"
+    padding: "20px"
+    width: "308px"
+  reading-settings-dark:
+    backgroundColor: "{colors.dark-panel}"
+    textColor: "{colors.dark-ink}"
+    rounded: "{rounded.popup}"
+    padding: "20px"
+    width: "308px"
 ---
 
 # Design System: 数学研习室
@@ -143,6 +167,8 @@ components:
 
 学科索引还使用米灰、蓝灰的符号底色和小点区分综合应用、线性代数；它们是分类标记，不承担通用交互语义。
 
+深色外观沿用低饱和绿的纸面层次。dark-paper 为页面，dark-panel 为输入与阅读设置，dark-panel-soft 为轻量控件；dark-ink、dark-muted 与 dark-border 分别承担主文字、辅助文字和细线。dark-active 与 dark-on-active 成对用于主行动和选中项，dark-focus 用于聚焦反馈。阅读样式以语义变量覆盖既有颜色映射，保持原有目录与内容层级。真题图片保留浅色承托面，避免反转原图损伤内容。
+
 ## Typography
 
 中文正文与标题使用本地打包的 Noto Sans SC Variable，并以 Microsoft YaHei、sans-serif 回退。公式由本地 KaTeX 样式与字体负责；不要用正文字符拼凑公式。图中变量可使用 Georgia。
@@ -152,6 +178,8 @@ components:
 首页 display 在超宽视口增至 38px，中等视口为 29px，手机为 28px；手机页面标题为 27px，课程标题为 28px。标题保持中等字重，避免把整段说明加粗。来源标签、辅助元信息与按钮字阶明显小于正文。
 
 **The Formula Fidelity Rule.** 数学表达式保持 KaTeX 渲染、原有条件与必要的横向滚动空间。
+
+阅读设置提供标准、舒适、大号、特大四档（100%、110%、120%、130%），以阅读比例共同缩放正文、公式和练习。导航和工具文字保持紧凑。Zen 模式使用所选比例与 120% 中的较大值；桌面富文本基准为 16px、行高 2.05，手机为 14px，均继续乘以阅读比例。标题、导语、作答与解释使用各自的阅读字阶；笔记浮层维持独立工具字阶。
 
 ## Layout
 
@@ -166,15 +194,21 @@ components:
 
 手机的继续研习函数图成为右下方低透明度的非交互背景，避免占据独立阅读宽度。表格与公式允许局部横向滚动。
 
+Zen 模式将课程居中为最大宽 880px 的单列，内边距为 32px 40px 60px；上方保留高 62px、最大宽 900px 的粘性阅读栏。侧栏、普通顶栏、课程上下文与边注等辅助内容收起，五阶段导航与笔记入口继续可用。手机阅读栏高 54px，课程内边距为 24px 22px 40px；阶段导航继续允许横向滚动。退出后恢复常规工作区。
+
 ## Elevation & Depth
 
 主要通过纸面、浅绿底色、边框与留白表达层次。标准目录行不使用阴影。全局阴影为 `0 14px 40px #253b3512`，用于笔记浮层和状态提示；主按钮悬停使用 `0 4px 14px #244f4617`。
+
+阅读设置是局部浮层，浅色阴影为 `0 12px 34px #213d291c`，深色为 `0 12px 34px #00000038`，由配对的语义阴影变量控制。
 
 **The Local Elevation Rule.** 阴影用于确实浮在页面之上的临时界面与轻微行动反馈。
 
 ## Shapes
 
 圆角以紧凑、实用为主：操作按钮、筛选、搜索、导航、学科符号各有顶部记录的尺寸，重点面板使用 feature。进度条与步骤圆点可用圆形；不将所有容器统一做成胶囊。分隔线以细线为主，图形使用细轴线、浅色填充和适量虚线。
+
+阅读设置采用 popup 圆角，介于学科符号与重点面板之间，保持临时工具的克制轮廓。
 
 ## Components
 
@@ -192,6 +226,10 @@ components:
 
 **Focus and motion.** 可聚焦操作使用 `3px solid #86a992` 轮廓，偏移 4px。普通按钮与链接的颜色、背景、阴影过渡为 0.18s；手机侧栏位移为 0.22s ease-out。`prefers-reduced-motion` 下关闭动画与过渡。搜索具有可访问名称，并支持 Ctrl/Cmd K；主内容提供跳转链接。
 
+**Reading preferences.** 顶部工具提供浅色/深色切换、阅读设置与 Zen 入口。阅读设置浮层右对齐，距触发器 14px（手机 16px），最大宽度为视口减 32px；以有边框的表面、分组标签和浅底选项组织外观与字号，选中项使用成对的行动色。外观支持浅色、深色、跟随系统，偏好保存在当前浏览器。点击外部或按 Esc 关闭浮层；键盘关闭与关闭按钮将焦点送回触发器。Zen 可按 Esc 退出。
+
+**Quiet reveal.** 阅读设置通过 170ms、`cubic-bezier(.16,1,.3,1)` 的透明度 0.82→1 与下移 3px→0 轻显。实验切换、提示、解答、测验反馈、推演步骤与笔记采用相同时长和缓动，透明度 0.85→1、下移 2px→0。搜索聚焦反馈为 150ms；这些变化接近无感，不作为阅读节奏或等待提示。`prefers-reduced-motion: reduce` 下跳过脚本轻显并关闭这些 CSS 动画与过渡。
+
 ## Do's and Don'ts
 
 ### Do:
@@ -208,4 +246,4 @@ components:
 - **Don't** 为装饰性图形压缩手机正文或截断公式与表格。
 - **Don't** 将自评进度表现成已验证的能力认证。
 
-<!-- Extraction: src/style.css and src/main.jsx, 2026-10-29. This document records the implementation; it does not certify visual QA, deployment, or content correctness. -->
+<!-- Extraction: src/style.css, src/main.jsx, src/ReadingPreferences.jsx, src/reading.css and src/theme-tokens.css, 2026-10-29. This document records the implementation; it does not certify visual QA, deployment, or content correctness. -->
