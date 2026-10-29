@@ -1,0 +1,21 @@
+{
+  "2026-12 cancellation limit": true,
+  "2022-11 logarithm limit": true,
+  "2024-14 fifth derivative": true,
+  "2021-12 parametric second derivative": true,
+  "2022-12 implicit second derivative": true,
+  "2025-17 rational integral": true,
+  "2019-13 integration by parts": true,
+  "2014-07 determinant": true,
+  "2026-09 left null vector": true,
+  "2026-22 HG": true,
+  "2026-22 tenth power": true,
+  "2022-22 spectrum": true,
+  "2021-22 double root 1": true,
+  "2021-22 double root 3": true,
+  "2025-20 lens integral": true,
+  "2022-18 ODE residual": true,
+  "2022-18 arc length": true,
+  "2026-17 sector integral": true,
+  "2018-19 minimum": true
+}
