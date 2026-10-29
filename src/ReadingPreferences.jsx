@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState,useLayoutEffect} from 'react';
 import {Moon,Sun,SlidersHorizontal,Focus,Minimize2,X,Monitor} from 'lucide-react';
+import InstallApp from './InstallApp';
 
 const key='math-studio-reading-v1';
 function load(){try{const d=JSON.parse(localStorage.getItem(key))||{};return {theme:['light','dark','system'].includes(d.theme)?d.theme:'system',size:Number.isFinite(d.size)&&d.size>=1&&d.size<=2?d.size:1,zen:!!d.zen}}catch{return {theme:'system',size:1,zen:false}}}
@@ -28,6 +29,7 @@ export default function ReadingPreferences({prefs,dark,setPrefs,onZen,zenActive=
    <div className="settings-group"><h3>外观</h3><div className="theme-options">{[['light',Sun,'浅色'],['dark',Moon,'深色'],['system',Monitor,'跟随系统']].map(([value,Icon,label])=><button key={value} className={prefs.theme===value?'selected':''} aria-pressed={prefs.theme===value} onClick={()=>setPrefs({theme:value})}><Icon size={15}/>{label}</button>)}</div></div>
    <div className="settings-group"><div className="settings-label"><h3>文字大小</h3><output aria-live="polite">{Math.round(prefs.size*100)}%</output></div><div className="font-options">{[[1,'标准'],[1.2,'舒适'],[1.4,'大号'],[1.6,'特大']].map(([value,label])=><button key={value} aria-pressed={prefs.size===value} className={prefs.size===value?'selected':''} onClick={()=>setPrefs({size:value})}><span>{label}<small>{Math.round(value*100)}%</small></span></button>)}</div><label className="font-slider">自定义字号<input type="range" min="100" max="200" step="5" value={Math.round(prefs.size*100)} aria-label="自定义字号" aria-valuetext={Math.round(prefs.size*100)+'%'} onChange={e=>setPrefs({size:Number(e.target.value)/100})}/></label><div className="slider-bounds"><span>100%</span><span>200%</span></div><p>正文、公式和练习会一起缩放。</p></div>
    <div className="settings-zen"><Focus size={18}/><div><h3>Zen 专注模式</h3><p>收起辅助界面，正文默认大一号。<br/>按 Esc 随时退出。</p></div><button className="text-button" onClick={()=>{Open(false);onZen()}}>{zenActive?'退出':'进入'}</button></div>
+   <InstallApp/>
   </section>}
  </div>
 }
