@@ -29,6 +29,13 @@ for id, q in sorted(bank.items()):
             assert not re.search(r'url\s*\(|expression|javascript|@import', tag['style'], re.I)
         if tag.name in ('label','form'):
             tag.name = 'div'
+    # KaTeX 0.17 namespaces legacy layout classes; preserve source classes
+    # and add their modern equivalents so archived sizing/struts still work.
+    renamed = {'base','strut','sizing','vbox','thinbox','inner','fix','underline','overline','root','newline','hline','hdashline','rule','smash'}
+    for math in soup.select('.katex'):
+        for tag in math.find_all():
+            classes = tag.get('class', [])
+            tag['class'] = classes + ['katex-'+c for c in classes if c in renamed and 'katex-'+c not in classes]
     assert soup.get_text() == original_text
     assert len(soup.select('.katex')) == before_math
     assert len(soup.select('.choice-option')) == before_options
