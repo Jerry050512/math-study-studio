@@ -496,7 +496,7 @@
       },
       "body": {
         "displayName": "中文正文",
-        "purpose": "本地 Noto Sans SC Variable；公式使用 KaTeX。阅读字号为 100%、110%、120%、130%；Zen 采用所选比例与 120% 的较大值。"
+        "purpose": "本地 Noto Sans SC Variable；公式使用 KaTeX。阅读预设为 100%、120%、140%、160%；自定义范围 100%–200%，步长 5%。保留该范围内既有有效比例；Zen 采用所选比例与 120% 的较大值。"
       },
       "action": {
         "displayName": "行动文字",
@@ -574,6 +574,40 @@
         "name": "wide-min",
         "value": "1500px"
       }
+    ],
+    "readingPreferences": {
+      "presets": [
+        100,
+        120,
+        140,
+        160
+      ],
+      "customRange": {
+        "min": 100,
+        "max": 200,
+        "step": 5
+      },
+      "persistence": "当前浏览器保存；既有 100%–200% 内有效比例继续保留。",
+      "zen": "采用所选比例与 120% 的较大值，保留下一题行动；手机下一题区域上下排列。"
+    },
+    "contentRendering": {
+      "nativeQuestions": "归档 HTML 与 KaTeX 保留题干、选项与公式结构，提供出处链接、加载与失败重试文字；文字与公式继承当前主题墨色，长公式局部横向滚动。",
+      "questionTypography": "正文 15px、行高 2；Zen 桌面 16px，手机 14px，乘以阅读比例。",
+      "automaticEmphasis": "启用时，每个 Rich 块最多三个自动关键词；字重 650，行动色 9% 浅底。",
+      "sourceEmphasis": "支持源文 textbf、emph、textit、textrm、textcolor；颜色强调转换为语义浅底和主题墨色。自动关键词预算不裁剪源文明确强调。",
+      "studyFeedback": "真题字段组三个自报按钮以 aria-pressed 与成对阅读行动色显示选中；不自动判分。文字复盘选填，可直接自评；复习安排说明通过 details 展开，标明启发式与未校准限制。"
+    },
+    "detectorAdvisories": [
+      {
+        "value": "10px / 11px",
+        "context": "字号百分比与滑杆端点 10px，滑杆标签 11px；紧凑阅读工具辅助字阶，不用于教学正文。",
+        "guidance": "结合可见标签、完整点击区域和缩放审阅；文档记录不代表可读性或无障碍验证。"
+      },
+      {
+        "value": "3px",
+        "context": "行内关键词强调圆角；贴近字形的局部标记。",
+        "guidance": "按文本背景标记审阅，不扩展为按钮或面板圆角。"
+      }
     ]
   },
   "components": [
@@ -634,19 +668,19 @@
       "css": ".ds-continue{font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;background:var(--green,#244f46);color:#eff5ed;border-radius:14px;padding:30px 35px}.ds-continue h2{font-weight:600;line-height:1.45;margin:0}.ds-continue>span{display:block;color:#c0d5c3;margin-top:8px}.ds-continue p{color:#c0d2c6;margin:12px 0 0}.ds-continue small{display:block;color:#bfd2c1;margin-top:14px}.ds-continue-action{font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;cursor:pointer;transition:background .18s,color .18s,box-shadow .18s;margin-top:23px;background:#e5eddb;color:#2e5545;border:1px solid transparent;border-radius:7px;padding:10px 18px;font-size:11px;line-height:1.7}.ds-continue-action:hover{background:#f1f5e9}.ds-focus:focus-visible{outline:3px solid #86a992;outline-offset:4px}"
     },
     {
-      "name": "Reflection Field",
-      "kind": "input",
-      "description": "有可见标签、足够行高的长回答输入。",
-      "html": "<label class=\"ds-reflection\">用自己的话，重建这条思路<textarea class=\"ds-focus\" rows=\"4\" placeholder=\"我注意到的结构是……\"></textarea></label>",
-      "css": ".ds-reflection{display:block;font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;font-size:11px;color:#62735e}.ds-reflection textarea{display:block;width:100%;box-sizing:border-box;padding:14px;background:#fff;border:1px solid #d8e3cf;border-radius:7px;margin-top:9px;color:#4e6a3e;font-family:inherit;font-size:12px;line-height:1.9;resize:vertical;caret-color:var(--green,#244f46)}.ds-focus:focus-visible{outline:3px solid #86a992;outline-offset:4px}"
+      "name": "Reflection and Study Feedback",
+      "kind": "custom",
+      "description": "文字复盘选填；真题自报按钮用行动色显示所选状态，自评可直接记录；复习安排说明默认折叠。",
+      "html": "<label class=\"ds-reflection\">用自己的话，重建这条思路（选填）<textarea class=\"ds-focus\" rows=\"4\" placeholder=\"我注意到的结构是……\"></textarea></label><fieldset class=\"ds-question-feedback\"><legend>这道真题，独立完成得怎样？</legend><p>对照自己的推导记录，不会自动判分。</p><div><button aria-pressed=\"true\">独立做对</button><button aria-pressed=\"false\">借助提示完成</button><button aria-pressed=\"false\">仍需重练</button></div></fieldset><section class=\"ds-self-assess\"><h3>这一次，你理解到了哪一步？</h3><p>可以直接选择自评，文字复盘选填。</p><div><button>需要重学</button><button>大致理解</button><button>能独立解释</button></div><details><summary>复习时间怎样安排？</summary><p>综合自评、理解题首次作答与真题自报完成情况。这是启发式训练建议，尚未用长期学习数据校准。</p></details></section>",
+      "css": ".ds-reflection{display:block;font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;font-size:11px;color:#62735e}.ds-reflection textarea{display:block;width:100%;box-sizing:border-box;padding:14px;background:#fff;border:1px solid #d8e3cf;border-radius:7px;margin-top:9px;color:#4e6a3e;font-family:inherit;font-size:12px;line-height:1.9;resize:vertical;caret-color:var(--green,#244f46)}.ds-focus:focus-visible{outline:3px solid #86a992;outline-offset:4px}.ds-question-feedback,.ds-self-assess{font-family:\"Noto Sans SC Variable\",\"Microsoft YaHei\",sans-serif;color:var(--ink,#253b35);margin:28px 0;padding:20px 0;border:0;border-top:1px solid var(--line,#e2e8e2);border-bottom:1px solid var(--line,#e2e8e2);min-width:0}.ds-question-feedback legend,.ds-self-assess h3{font-size:14px;font-weight:600}.ds-question-feedback p,.ds-self-assess p{font-size:12px;line-height:1.9}.ds-question-feedback>div,.ds-self-assess>div{display:flex;flex-wrap:wrap;gap:9px}.ds-question-feedback button,.ds-self-assess button{border:1px solid var(--reading-border,#dce5da);background:var(--panel,#fff);color:var(--reading-muted,#607066);border-radius:7px;padding:9px 15px;font:inherit;font-size:11px;cursor:pointer;white-space:normal}.ds-question-feedback button[aria-pressed=true]{background:var(--reading-active,#244f46);color:var(--reading-on-active,#f4f8f1);border-color:var(--reading-active,#244f46)}.ds-question-feedback button:hover,.ds-self-assess button:hover{border-color:var(--reading-active,#244f46)}.ds-question-feedback button:focus-visible,.ds-self-assess button:focus-visible,.ds-self-assess summary:focus-visible{outline:3px solid var(--reading-focus,#86a992);outline-offset:4px}.ds-self-assess details{margin-top:24px;font-size:12px;max-width:70ch}.ds-self-assess summary{cursor:pointer;color:var(--accent,#447a62);padding:5px 0;text-decoration:underline;text-underline-offset:4px}"
     },
     {
       "name": "Reading Preferences",
       "kind": "custom",
       "refersTo": "reading-settings",
-      "description": "配对浅色/深色语义表面的阅读设置；提供外观、四档字号和 Zen 入口。",
-      "html": "<section class=\"ds-reading\"><h2>阅读设置</h2><h3>外观</h3><div class=\"ds-reading-options\"><button aria-pressed=\"true\">浅色</button><button aria-pressed=\"false\">深色</button><button aria-pressed=\"false\">跟随系统</button></div><div class=\"ds-reading-label\"><h3>文字大小</h3><output>100%</output></div><div class=\"ds-reading-options\"><button aria-pressed=\"true\">标准</button><button aria-pressed=\"false\">舒适</button><button aria-pressed=\"false\">大号</button><button aria-pressed=\"false\">特大</button></div><p>正文、公式和练习会一起缩放。</p><div class=\"ds-reading-zen\"><h3>Zen 专注模式</h3><p>收起辅助界面，正文默认大一号。</p><button>进入</button></div></section>",
-      "css": ".ds-reading{font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;width:308px;max-width:calc(100vw - 32px);padding:20px;background:var(--panel,#fff);color:var(--reading-ink,#253b35);border:1px solid var(--reading-border,#dce5da);border-radius:12px;box-shadow:var(--reading-shadow,0 12px 34px #213d291c)}.ds-reading h2{font-size:15px;font-weight:600;margin:0}.ds-reading h3{font-size:11px;font-weight:500;margin:20px 0 0}.ds-reading-options{display:flex;gap:5px;margin-top:10px}.ds-reading-options button{flex:1;display:flex;align-items:center;justify-content:center;font:inherit;font-size:11px;padding:9px 5px;min-height:38px;border:0;border-radius:6px;color:var(--reading-muted,#607066);background:var(--panel-soft,#edf2ec);cursor:pointer}.ds-reading-options button[aria-pressed=true]{background:var(--reading-active,#244f46);color:var(--reading-on-active,#fff)}.ds-reading button:hover{filter:brightness(.97)}.ds-reading button:focus-visible{outline:3px solid var(--reading-focus,#86a992);outline-offset:4px}.ds-reading-label{display:flex;align-items:baseline;justify-content:space-between}.ds-reading output,.ds-reading p{font-size:10px;color:var(--reading-muted,#607066);line-height:1.8}.ds-reading output{font-variant-numeric:tabular-nums}.ds-reading-zen{border-top:1px solid var(--reading-border,#dce5da);margin-top:21px}.ds-reading-zen button{font:inherit;font-size:11px;color:var(--reading-active,#244f46);background:none;border:0;cursor:pointer}"
+      "description": "配对浅色/深色语义表面的阅读设置；四档 100%/120%/140%/160%，100%–200% 每步 5% 的滑杆与 Zen 入口。",
+      "html": "<section class=\"ds-reading\"><h2>阅读设置</h2><h3>外观</h3><div class=\"ds-reading-options\"><button aria-pressed=\"true\">浅色</button><button aria-pressed=\"false\">深色</button><button aria-pressed=\"false\">跟随系统</button></div><div class=\"ds-reading-label\"><h3>文字大小</h3><output aria-live=\"polite\">100%</output></div><div class=\"ds-reading-options\"><button aria-pressed=\"true\"><span>标准<small>100%</small></span></button><button aria-pressed=\"false\"><span>舒适<small>120%</small></span></button><button aria-pressed=\"false\"><span>大号<small>140%</small></span></button><button aria-pressed=\"false\"><span>特大<small>160%</small></span></button></div><label class=\"ds-font-slider\">自定义字号<input type=\"range\" min=\"100\" max=\"200\" step=\"5\" value=\"100\" aria-label=\"自定义字号\" aria-valuetext=\"100%\"/></label><div class=\"ds-slider-bounds\"><span>100%</span><span>200%</span></div><p>正文、公式和练习会一起缩放。</p><div class=\"ds-reading-zen\"><h3>Zen 专注模式</h3><p>收起辅助界面，正文默认大一号。</p><button>进入</button></div></section>",
+      "css": ".ds-reading{font-family:'Noto Sans SC Variable','Microsoft YaHei',sans-serif;width:308px;max-width:calc(100vw - 32px);padding:20px;background:var(--panel,#fff);color:var(--reading-ink,#253b35);border:1px solid var(--reading-border,#dce5da);border-radius:12px;box-shadow:var(--reading-shadow,0 12px 34px #213d291c)}.ds-reading h2{font-size:15px;font-weight:600;margin:0}.ds-reading h3{font-size:11px;font-weight:500;margin:20px 0 0}.ds-reading-options{display:flex;gap:5px;margin-top:10px}.ds-reading-options button{flex:1;display:flex;align-items:center;justify-content:center;font:inherit;font-size:11px;padding:9px 5px;min-height:38px;border:0;border-radius:6px;color:var(--reading-muted,#607066);background:var(--panel-soft,#edf2ec);cursor:pointer}.ds-reading-options button[aria-pressed=true]{background:var(--reading-active,#244f46);color:var(--reading-on-active,#fff)}.ds-reading button:hover{filter:brightness(.97)}.ds-reading button:focus-visible{outline:3px solid var(--reading-focus,#86a992);outline-offset:4px}.ds-reading-label{display:flex;align-items:baseline;justify-content:space-between}.ds-reading output,.ds-reading p{font-size:10px;color:var(--reading-muted,#607066);line-height:1.8}.ds-reading output{font-variant-numeric:tabular-nums}.ds-reading-zen{border-top:1px solid var(--reading-border,#dce5da);margin-top:21px}.ds-reading-zen button{font:inherit;font-size:11px;color:var(--reading-active,#244f46);background:none;border:0;cursor:pointer}.ds-reading-options small{display:block;font-size:10px;font-variant-numeric:tabular-nums;opacity:.8;margin-top:3px}.ds-font-slider{display:block;margin-top:18px;font-size:11px;color:var(--reading-muted,#607066)}.ds-font-slider input{display:block;width:100%;margin:12px 0 4px;accent-color:var(--reading-active,#244f46);cursor:pointer}.ds-slider-bounds{display:flex;justify-content:space-between;font-size:10px;color:var(--reading-muted,#607066);font-variant-numeric:tabular-nums}.ds-font-slider input:focus-visible{outline:3px solid var(--reading-focus,#86a992);outline-offset:4px}"
     }
   ],
   "narrative": {

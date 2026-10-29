@@ -10,7 +10,7 @@ test('完整学习路径、笔记持久化与复习安排',async({page})=>{
  await page.locator('.quiz-options button').first().click();await expect(page.locator('.quiz-feedback')).toContainText('思路正确');
  await page.getByRole('button',{name:'推演流程',exact:false}).last().click();await expect(page.locator('.process-step')).toHaveCount(4);
  await page.getByRole('button',{name:'真题应用',exact:false}).last().click();
- await expect(page.locator('.question-stem img')).toBeVisible();await expect.poll(()=>page.locator('.question-stem img').evaluate(e=>e.naturalWidth)).toBeGreaterThan(0);
+ await expect(page.locator('.question-stem .katex').first()).toBeVisible();await expect(page.locator('.question-stem img')).toHaveCount(0);
  await page.getByPlaceholder('我注意到的结构是……因此第一步是……').fill('先读积分上限，再把被积函数的首项写出来。');
  await page.getByRole('button',{name:'提示一：识别信号'}).click();await expect(page.locator('.hint')).toBeVisible();
  await page.getByRole('button',{name:'查看原笔记读题演示'}).click();await expect(page.locator('.solution')).toContainText('同阶但非等价');
@@ -23,7 +23,7 @@ test('完整学习路径、笔记持久化与复习安排',async({page})=>{
 });
 test('全部70单元公式与题干均可用',async({page,request})=>{
  const failures=[];await page.goto('/');
- for(const l of lessons){await page.goto('/#lesson/'+l.id);await page.locator('.stage-nav button').nth(1).click();let m=await page.locator('.math-error').allTextContents();if(m.length)failures.push({id:l.id,math:m});await page.locator('.stage-nav button').nth(3).click();for(let i=0;i<l.questions.length;i++){if(i)await page.locator('.lesson-body .tabs button').nth(i).click();await page.getByRole('button',{name:'查看原笔记读题演示'}).click();m=await page.locator('.math-error').allTextContents();if(m.length)failures.push({id:l.id,solution:m});if(l.questions[i].id!=='math2-2025-22'){const response=await request.get('/questions/'+l.questions[i].id+'.png');expect(response.ok()).toBeTruthy();}}}
+ for(const l of lessons){await page.goto('/#lesson/'+l.id);await page.locator('.stage-nav button').nth(1).click();let m=await page.locator('.math-error').allTextContents();if(m.length)failures.push({id:l.id,math:m});await page.locator('.stage-nav button').nth(3).click();for(let i=0;i<l.questions.length;i++){if(i)await page.locator('.lesson-body .tabs button').nth(i).click();await expect(page.locator('.archive-question .katex').first()).toBeVisible();await page.getByRole('button',{name:'查看原笔记读题演示'}).click();m=await page.locator('.math-error').allTextContents();if(m.length)failures.push({id:l.id,solution:m});const response=await request.get('/questions/'+l.questions[i].id+'.json');expect(response.ok()).toBeTruthy();expect((await response.json()).id).toBe(l.questions[i].id);}}
  expect(failures).toEqual([]);
 });
 test('桌面与手机页面、实验与布局',async({page})=>{
