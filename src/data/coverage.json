@@ -1,0 +1,26 @@
+{
+  "lessons": 70,
+  "examples": 71,
+  "uniqueExamples": 71,
+  "groups": {
+    "calculus": 22,
+    "applications": 30,
+    "linear": 18
+  },
+  "sources": [
+    {
+      "path": "chapters/calculus.tex",
+      "sha256": "4075e072f3319fcab18741070d64c26b0f7711c5a46895a9da26ae359acb0d49"
+    },
+    {
+      "path": "chapters/applications.tex",
+      "sha256": "9ee76899502ec44a4739ac0a00ee9cf12f5e84b82958eed31a790dd7ca98ec70"
+    },
+    {
+      "path": "chapters/linear.tex",
+      "sha256": "9eeea616e05da431df9069289a6f058c7a79893c81b0dd64f6403f8949cd296a"
+    }
+  ],
+  "referenceCommit": "f8849746d85c5ebe8556fdb8f388783ac7483c8b",
+  "methodology": "来源可追溯、先回忆后展开、条件检查、分层提示、解释与复盘；新增练习与交互为站点教学补充。"
+}
