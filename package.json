@@ -6,7 +6,7 @@
   "scripts": {
     "test": "playwright test",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/pwa-build.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "keywords": [],
