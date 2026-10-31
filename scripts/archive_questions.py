@@ -6,6 +6,7 @@ Run after extract.py to refresh the standalone question payloads.
 from pathlib import Path
 import json, re, hashlib
 from bs4 import BeautifulSoup
+from question_latex import question_text
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT.parent / 'exam-archive/data/questions.jsonl'
@@ -40,7 +41,8 @@ for id, q in sorted(bank.items()):
     assert len(soup.select('.katex')) == before_math
     assert len(soup.select('.choice-option')) == before_options
     html = str(soup).replace('viewbox=', 'viewBox=').replace('preserveaspectratio=', 'preserveAspectRatio=')
-    data = {'id':id, 'html':html, 'source':q['source_question_url'], 'section':q['section'], 'points':q.get('points')}
+    latex,formulas = question_text(q['question_html'])
+    data = {'id':id, 'html':html, 'source':q['source_question_url'], 'section':q['section'], 'points':q.get('points'), 'latex':latex, 'latexFormulas':formulas}
     (out/f'{id}.json').write_text(json.dumps(data,ensure_ascii=False),encoding='utf-8')
     report.append({'id':id, 'formulas':before_math, 'options':before_options, 'source':data['source'], 'archiveHtmlSha256':hashlib.sha256(q['question_html'].encode()).hexdigest(), 'textPreserved':True})
 (ROOT/'src/data/archive-coverage.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
